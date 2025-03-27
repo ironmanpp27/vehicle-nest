@@ -1,35 +1,31 @@
 
 import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Search, X, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger 
+} from "@/components/ui/popover";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-} from "@/components/ui/dropdown-menu";
-import { Search, Filter } from "lucide-react";
-import { VehicleStatus, VehicleType } from "@/lib/types";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface SearchBarProps {
-  onSearch: (query: string, filters: SearchFilters) => void;
+  onSearch: (query: string, filters?: any) => void;
 }
 
-export interface SearchFilters {
-  status?: VehicleStatus | null;
-  type?: VehicleType | null;
-  year?: number | null;
-  sortBy?: "newest" | "oldest" | "make" | null;
-}
-
-export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+export const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [query, setQuery] = useState("");
-  const [filters, setFilters] = useState<SearchFilters>({
-    status: null,
-    type: null,
-    year: null,
-    sortBy: null,
+  const [filters, setFilters] = useState({
+    make: "",
+    year: "",
+    status: "",
   });
 
   const handleSearch = (e: React.FormEvent) => {
@@ -37,95 +33,123 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     onSearch(query, filters);
   };
 
-  const updateFilter = (key: keyof SearchFilters, value: any) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value === "all" ? null : value,
-    }));
+  const handleClear = () => {
+    setQuery("");
+    setFilters({
+      make: "",
+      year: "",
+      status: "",
+    });
+    onSearch("", {});
   };
 
   return (
-    <form onSubmit={handleSearch} className="w-full">
-      <div className="flex flex-col md:flex-row gap-3">
+    <form 
+      onSubmit={handleSearch} 
+      className="w-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-2 shadow-sm transition-all animate-fade-in"
+    >
+      <div className="flex flex-col md:flex-row gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by registration number, make, model or VIN..."
+            type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 h-11 rounded-lg border-input bg-white shadow-inner-soft"
+            placeholder="Search vehicles by make, model, or registration..."
+            className="pl-9 pr-9 bg-background/50 border-border/40 focus-visible:ring-primary/20"
           />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
         </div>
         
-        <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="text-sm h-11 px-4">
-                <Filter className="h-4 w-4 mr-2" /> Status
+        <div className="flex items-center gap-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" type="button" className="gap-1 bg-background/50">
+                <Filter className="h-4 w-4" />
+                Filters
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuRadioGroup
-                value={filters.status || "all"}
-                onValueChange={(value) => 
-                  updateFilter("status", value as VehicleStatus | "all")
-                }
-              >
-                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                {Object.values(VehicleStatus).map((status) => (
-                  <DropdownMenuRadioItem key={status} value={status}>
-                    {status}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="text-sm h-11 px-4">
-                <Filter className="h-4 w-4 mr-2" /> Type
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuRadioGroup
-                value={filters.type || "all"}
-                onValueChange={(value) => 
-                  updateFilter("type", value as VehicleType | "all")
-                }
-              >
-                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                {Object.values(VehicleType).map((type) => (
-                  <DropdownMenuRadioItem key={type} value={type}>
-                    {type}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="text-sm h-11 px-4">
-                <Filter className="h-4 w-4 mr-2" /> Sort
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuRadioGroup
-                value={filters.sortBy || "all"}
-                onValueChange={(value) => 
-                  updateFilter("sortBy", value as "newest" | "oldest" | "make" | "all")
-                }
-              >
-                <DropdownMenuRadioItem value="all">Default</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="newest">Newest First</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="oldest">Oldest First</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="make">By Make</DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Button type="submit" variant="default" className="h-11 button-hover">
+            </PopoverTrigger>
+            <PopoverContent className="w-80 p-4">
+              <div className="space-y-4">
+                <h3 className="font-medium">Filter Vehicles</h3>
+                
+                <div className="space-y-2">
+                  <label className="text-sm text-muted-foreground">Make</label>
+                  <Select
+                    value={filters.make}
+                    onValueChange={(value) => setFilters({...filters, make: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Any make" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Any make</SelectItem>
+                      <SelectItem value="toyota">Toyota</SelectItem>
+                      <SelectItem value="honda">Honda</SelectItem>
+                      <SelectItem value="ford">Ford</SelectItem>
+                      <SelectItem value="bmw">BMW</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm text-muted-foreground">Year</label>
+                  <Select
+                    value={filters.year}
+                    onValueChange={(value) => setFilters({...filters, year: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Any year" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Any year</SelectItem>
+                      <SelectItem value="2023">2023</SelectItem>
+                      <SelectItem value="2022">2022</SelectItem>
+                      <SelectItem value="2021">2021</SelectItem>
+                      <SelectItem value="2020">2020</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm text-muted-foreground">Status</label>
+                  <Select
+                    value={filters.status}
+                    onValueChange={(value) => setFilters({...filters, status: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Any status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Any status</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="expired">Expired</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex justify-between pt-2">
+                  <Button onClick={handleClear} variant="ghost" type="button">
+                    Reset
+                  </Button>
+                  <Button onClick={handleSearch} type="submit">
+                    Apply Filters
+                  </Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+          
+          <Button type="submit" className="button-hover">
             Search
           </Button>
         </div>
