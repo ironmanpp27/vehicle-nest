@@ -2,7 +2,6 @@
 import React from "react";
 import { Navbar } from "./Navbar";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -36,7 +35,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, className }) => {
           </div>
         </div>
       </footer>
-      <Toaster position="top-right" />
     </div>
   );
 };
