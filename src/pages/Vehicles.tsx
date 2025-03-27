@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { VehicleCard } from "@/components/VehicleCard";
@@ -8,14 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
 const Vehicles = () => {
-  const [vehicles, setVehicles] = useState<Vehicle[]>(mockVehicles);
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>(mockVehicles);
   const [activeTab, setActiveTab] = useState("all");
   
   const handleSearch = (query: string, filters: SearchFilters) => {
-    let results = [...vehicles];
+    let results = [...mockVehicles];
     
-    // Search by query
     if (query) {
       const lowercaseQuery = query.toLowerCase();
       results = results.filter(
@@ -30,7 +27,6 @@ const Vehicles = () => {
       );
     }
     
-    // Apply filters
     if (filters.status) {
       results = results.filter((vehicle) => vehicle.status === filters.status);
     }
@@ -39,7 +35,6 @@ const Vehicles = () => {
       results = results.filter((vehicle) => vehicle.type === filters.type);
     }
     
-    // Apply sort
     if (filters.sortBy) {
       switch (filters.sortBy) {
         case "newest":
@@ -57,16 +52,15 @@ const Vehicles = () => {
     setFilteredVehicles(results);
   };
   
-  // Handle tab changes
   useEffect(() => {
     if (activeTab === "all") {
-      setFilteredVehicles(vehicles);
+      setFilteredVehicles(mockVehicles);
     } else {
       setFilteredVehicles(
-        vehicles.filter((vehicle) => vehicle.status.toLowerCase() === activeTab)
+        mockVehicles.filter((vehicle) => vehicle.status.toLowerCase() === activeTab)
       );
     }
-  }, [activeTab, vehicles]);
+  }, [activeTab, mockVehicles]);
   
   return (
     <Layout>

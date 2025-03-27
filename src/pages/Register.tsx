@@ -7,10 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { VehicleType, VehicleStatus } from "@/lib/types";
+import { mockVehicles, Vehicle, VehicleType, VehicleStatus } from "@/lib/types";
 import { CalendarIcon, CheckCircle, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -106,7 +107,39 @@ const Register = () => {
   const handleSubmit = () => {
     setLoading(true);
     
-    // Simulate API call
+    // Create new vehicle object
+    const newVehicle: Vehicle = {
+      id: uuidv4(),
+      registrationNumber: vehicleDetails.registrationNumber,
+      make: vehicleDetails.make,
+      model: vehicleDetails.model,
+      year: vehicleDetails.year,
+      color: vehicleDetails.color,
+      vin: vehicleDetails.vin,
+      type: vehicleDetails.type,
+      status: VehicleStatus.PENDING,
+      registrationDate: new Date().toISOString().split('T')[0],
+      owner: {
+        id: uuidv4(),
+        firstName: ownerDetails.firstName,
+        lastName: ownerDetails.lastName,
+        email: ownerDetails.email,
+        phone: ownerDetails.phone,
+        licenseNumber: ownerDetails.licenseNumber,
+        address: {
+          street: ownerDetails.street,
+          city: ownerDetails.city,
+          state: ownerDetails.state,
+          zipCode: ownerDetails.zipCode,
+          country: ownerDetails.country
+        }
+      }
+    };
+    
+    // Add the new vehicle to the mock data
+    mockVehicles.push(newVehicle);
+    
+    // Simulate API call with a delay
     setTimeout(() => {
       setLoading(false);
       setRegistrationComplete(true);
