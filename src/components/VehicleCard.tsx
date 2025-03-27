@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, CarIcon, InfoIcon } from "lucide-react";
-import { Vehicle } from "@/lib/types";
+import { Vehicle, VehicleStatus } from "@/lib/types";
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -16,9 +16,9 @@ export const VehicleCard = ({ vehicle }: VehicleCardProps) => {
     <Link to={`/vehicles/${vehicle.id}`}>
       <Card className="group overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px] border-border/50 bg-card/50 backdrop-blur-sm">
         <div className="relative aspect-video overflow-hidden bg-muted">
-          {vehicle.imageUrl ? (
+          {vehicle.vin ? (
             <img
-              src={vehicle.imageUrl}
+              src={`https://source.unsplash.com/random/800x600/?car,${vehicle.make}`}
               alt={`${vehicle.make} ${vehicle.model}`}
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
             />
@@ -29,7 +29,7 @@ export const VehicleCard = ({ vehicle }: VehicleCardProps) => {
           )}
           
           <div className="absolute top-2 right-2">
-            <Badge variant={vehicle.status === 'active' ? 'default' : 'secondary'} className="capitalize">
+            <Badge variant={vehicle.status === VehicleStatus.ACTIVE ? 'default' : 'secondary'} className="capitalize">
               {vehicle.status}
             </Badge>
           </div>
@@ -53,7 +53,7 @@ export const VehicleCard = ({ vehicle }: VehicleCardProps) => {
         
         <CardFooter className="p-4 pt-0 flex justify-between items-center">
           <span className="text-sm font-medium text-primary">
-            Owner: {vehicle.ownerName}
+            Owner: {vehicle.owner.firstName} {vehicle.owner.lastName}
           </span>
           
           <Button variant="ghost" size="sm" className="gap-1 group-hover:bg-primary/10">

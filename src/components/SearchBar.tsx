@@ -15,17 +15,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { VehicleStatus } from "@/lib/types";
+
+// Export the SearchFilters interface
+export interface SearchFilters {
+  make?: string;
+  year?: string;
+  status?: VehicleStatus;
+  type?: string;
+  sortBy?: "newest" | "oldest" | "make";
+}
 
 interface SearchBarProps {
-  onSearch: (query: string, filters?: any) => void;
+  onSearch: (query: string, filters?: SearchFilters) => void;
 }
 
 export const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [query, setQuery] = useState("");
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<SearchFilters>({
     make: "",
     year: "",
-    status: "",
+    status: undefined,
   });
 
   const handleSearch = (e: React.FormEvent) => {
@@ -38,7 +48,7 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
     setFilters({
       make: "",
       year: "",
-      status: "",
+      status: undefined,
     });
     onSearch("", {});
   };
@@ -122,17 +132,17 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
                 <div className="space-y-2">
                   <label className="text-sm text-muted-foreground">Status</label>
                   <Select
-                    value={filters.status}
-                    onValueChange={(value) => setFilters({...filters, status: value})}
+                    value={filters.status as string}
+                    onValueChange={(value) => setFilters({...filters, status: value as VehicleStatus})}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Any status" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">Any status</SelectItem>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="expired">Expired</SelectItem>
+                      <SelectItem value="Active">Active</SelectItem>
+                      <SelectItem value="Pending">Pending</SelectItem>
+                      <SelectItem value="Expired">Expired</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
