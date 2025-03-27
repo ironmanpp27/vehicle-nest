@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { VehicleCard } from "@/components/VehicleCard";
@@ -75,8 +76,19 @@ const Vehicles = () => {
             </p>
           </div>
           
-          <div className="mb-8">
-            <SearchBar onSearch={handleSearch} />
+          <div className="relative mb-12 overflow-hidden rounded-xl border border-border/40 bg-white/60 backdrop-blur-sm shadow-medium">
+            <div className="absolute inset-0 overflow-hidden opacity-20">
+              <img 
+                src="https://cdn.dribbble.com/users/722246/screenshots/4084242/media/ca0e9ff57f1db6a5c4f15b9421e7f2df.gif" 
+                alt="Background Animation"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="relative p-6 md:p-8 z-10">
+              <div className="mb-8">
+                <SearchBar onSearch={handleSearch} />
+              </div>
+            </div>
           </div>
           
           <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="mb-8">
