@@ -91,6 +91,75 @@ const Vehicles = () => {
             </div>
           </div>
           
+          {/* Vehicle stats with animated icon */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div className="bg-white p-6 rounded-xl border border-border/40 shadow-sm flex items-center">
+              <div className="mr-4 h-12 w-12 rounded-full overflow-hidden">
+                <img 
+                  src="https://cdn.dribbble.com/users/3178178/screenshots/6430539/desgndash.gif" 
+                  alt="Statistics"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-sm">Total Vehicles</p>
+                <p className="text-2xl font-bold">{mockVehicles.length}</p>
+              </div>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl border border-border/40 shadow-sm flex items-center">
+              <div className="mr-4 h-12 w-12 rounded-full overflow-hidden">
+                <img 
+                  src="https://cdn.dribbble.com/users/1018473/screenshots/3963419/check.gif" 
+                  alt="Active Vehicles"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-sm">Active Vehicles</p>
+                <p className="text-2xl font-bold">
+                  {mockVehicles.filter(v => v.status === VehicleStatus.ACTIVE).length}
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl border border-border/40 shadow-sm flex items-center">
+              <div className="mr-4 h-12 w-12 rounded-full overflow-hidden">
+                <img 
+                  src="https://cdn.dribbble.com/users/1018473/screenshots/3848385/hourglass.gif" 
+                  alt="Pending Vehicles"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-sm">Pending</p>
+                <p className="text-2xl font-bold">
+                  {mockVehicles.filter(v => v.status === VehicleStatus.PENDING).length}
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl border border-border/40 shadow-sm flex items-center">
+              <div className="mr-4 h-12 w-12 rounded-full overflow-hidden">
+                <img 
+                  src="https://cdn.dribbble.com/users/2421265/screenshots/9022738/media/f5344616cc90f635114f61714cede6be.gif" 
+                  alt="Recent Registrations"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-sm">Recent (7 days)</p>
+                <p className="text-2xl font-bold">
+                  {mockVehicles.filter(v => {
+                    const sevenDaysAgo = new Date();
+                    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                    return new Date(v.registrationDate) >= sevenDaysAgo;
+                  }).length}
+                </p>
+              </div>
+            </div>
+          </div>
+          
           <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="mb-8">
             <TabsList className="grid grid-cols-5 w-full max-w-md mb-6">
               <TabsTrigger value="all">All</TabsTrigger>
@@ -112,6 +181,13 @@ const Vehicles = () => {
                   </div>
                 ) : (
                   <div className="text-center py-16">
+                    <div className="mx-auto w-40 h-40 mb-6">
+                      <img 
+                        src="https://cdn.dribbble.com/users/285475/screenshots/1993768/media/deedfcc02166d4a23b7ab8ef2592608b.gif" 
+                        alt="No Results Found"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
                     <p className="text-lg text-muted-foreground">
                       No vehicles found. Try adjusting your search or filters.
                     </p>

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Layout } from "@/components/Layout";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
@@ -163,6 +162,17 @@ const Register = () => {
             )}
           </div>
           
+          {!registrationComplete && (
+            <div className="mb-10 relative overflow-hidden rounded-xl shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/30 mix-blend-overlay"></div>
+              <img 
+                src="https://cdn.dribbble.com/users/1912990/screenshots/6181480/hf-dribbble-x5.gif" 
+                alt="Car Registration Animation" 
+                className="w-full h-40 object-cover"
+              />
+            </div>
+          )}
+          
           {!registrationComplete ? (
             <>
               <div className="mb-10">
@@ -214,6 +224,16 @@ const Register = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
+                    <div className="flex justify-center mb-4">
+                      <div className="rounded-full overflow-hidden w-20 h-20 bg-muted/50">
+                        <img 
+                          src="https://cdn.dribbble.com/users/1102039/screenshots/5947993/media/6e496fb3bcd95b4c88cf53fe69c5034a.gif" 
+                          alt="Car Icon" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="registrationNumber">Registration Number <span className="text-red-500">*</span></Label>
@@ -328,6 +348,16 @@ const Register = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
+                    <div className="flex justify-center mb-4">
+                      <div className="rounded-full overflow-hidden w-20 h-20 bg-muted/50">
+                        <img 
+                          src="https://cdn.dribbble.com/users/2514124/screenshots/5474610/profile.gif" 
+                          alt="Owner Icon" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="firstName">First Name <span className="text-red-500">*</span></Label>
@@ -471,6 +501,16 @@ const Register = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
+                    <div className="flex justify-center mb-4">
+                      <div className="rounded-full overflow-hidden w-20 h-20 bg-muted/50">
+                        <img 
+                          src="https://cdn.dribbble.com/users/530801/screenshots/2367173/media/e0edaef46f0ae1261a5df8ac5d05b6ea.gif" 
+                          alt="Review Icon" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    
                     <div>
                       <h3 className="font-semibold text-lg mb-4">Vehicle Details</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
@@ -570,8 +610,12 @@ const Register = () => {
           ) : (
             <Card className="border-border/40 shadow-soft text-center py-8">
               <CardContent className="space-y-6">
-                <div className="mx-auto w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
-                  <CheckCircle className="h-8 w-8 text-primary" />
+                <div className="mx-auto w-40 h-40 mb-4">
+                  <img 
+                    src="https://cdn.dribbble.com/users/1751799/screenshots/5512482/check02.gif" 
+                    alt="Success Animation"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 
                 <div className="space-y-2">

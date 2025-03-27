@@ -53,6 +53,42 @@ const Index = () => {
         </div>
       </section>
       
+      {/* New car registration animation section */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col lg:flex-row-reverse items-center justify-between gap-12">
+            <div className="max-w-md space-y-4 animate-slide-in">
+              <h2 className="text-2xl md:text-3xl font-display font-bold tracking-tight">
+                Fast and Easy Registration Process
+              </h2>
+              <p className="text-muted-foreground">
+                Register your vehicle in just a few steps. Our streamlined process makes vehicle registration quick and hassle-free.
+              </p>
+              <Button asChild className="group">
+                <Link to="/register">
+                  Register Your Vehicle <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </div>
+            
+            <div className="relative w-full max-w-lg animate-blur-in">
+              <div className="rounded-xl overflow-hidden shadow-medium border border-border/40">
+                <div className="aspect-video bg-white/80 backdrop-blur-sm relative">
+                  <img 
+                    src="https://cdn.dribbble.com/users/846207/screenshots/3434118/car-toggle.gif" 
+                    alt="Car Registration Process"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-overlay"></div>
+                </div>
+              </div>
+              <div className="absolute -bottom-4 -left-4 -z-10 h-24 w-24 rounded-full bg-primary blur-xl opacity-70"></div>
+              <div className="absolute -top-4 -right-4 -z-10 h-24 w-24 rounded-full bg-accent/30 blur-xl opacity-70"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* Features section */}
       <section className="py-20 bg-secondary/50">
         <div className="container mx-auto px-4 md:px-6">
